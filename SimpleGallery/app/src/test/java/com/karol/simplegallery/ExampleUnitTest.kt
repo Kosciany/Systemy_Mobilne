@@ -1,4 +1,4 @@
-package com.example.simplegalleryapp
+package com.karol.simplegallery
 
 import org.junit.Test
 

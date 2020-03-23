@@ -1,2 +1,2 @@
-rootProject.name='Simple Gallery App'
+rootProject.name='Simple Gallery'
 include ':app'
