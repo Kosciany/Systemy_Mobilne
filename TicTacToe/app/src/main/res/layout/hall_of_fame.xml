@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gameplay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".GamePlay">
+
+    <TextView
+        android:id="@+id/top_3_id"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
+        android:text="3."
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/top_2_id"
+        app:layout_constraintTop_toBottomOf="@+id/top_2_id" />
+
+    <TextView
+        android:id="@+id/top_2_id"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="48dp"
+        android:text="2."
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/top_1_id"
+        app:layout_constraintTop_toBottomOf="@+id/top_1_id" />
+
+    <Button
+        android:id="@+id/exit"
+        android:layout_width="88dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="160dp"
+        android:layout_marginRight="160dp"
+        android:layout_marginBottom="124dp"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/top_scores_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginBottom="304dp"
+        android:text="TOP SCORES"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/exit"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/top_1_id"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="60dp"
+        android:text="1."
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/top_scores_text"
+        app:layout_constraintTop_toBottomOf="@+id/top_scores_text" />
+
+    <TextView
+        android:id="@+id/top_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toEndOf="@+id/top_1_id"
+        app:layout_constraintTop_toTopOf="@+id/top_1_id" />
+
+    <TextView
+        android:id="@+id/top_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="68dp"
+        app:layout_constraintStart_toEndOf="@+id/top_2_id"
+        app:layout_constraintTop_toBottomOf="@+id/top_1" />
+
+    <TextView
+        android:id="@+id/top_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintStart_toEndOf="@+id/top_3_id"
+        app:layout_constraintTop_toBottomOf="@+id/top_2" />
+
+</android.support.constraint.ConstraintLayout>
