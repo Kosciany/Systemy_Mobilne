@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/singlePlay"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="288dp"
+        android:layout_marginLeft="288dp"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:text="1 Player Game"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/multiPlay"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="2 Player Game"
+        app:layout_constraintStart_toStartOf="@+id/singlePlay"
+        app:layout_constraintTop_toBottomOf="@+id/singlePlay" />
+
+    <Button
+        android:id="@+id/hallOffFame"
+        android:layout_width="131dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="16dp"
+        android:text="Hall of Fame"
+        app:layout_constraintStart_toStartOf="@+id/multiPlay"
+        app:layout_constraintTop_toBottomOf="@+id/multiPlay" />
+
+    <Button
+        android:id="@+id/exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Exit"
+        app:layout_constraintEnd_toEndOf="@+id/hallOffFame"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="@+id/hallOffFame"
+        app:layout_constraintTop_toBottomOf="@+id/hallOffFame" />
+</android.support.constraint.ConstraintLayout>

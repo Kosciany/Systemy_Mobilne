@@ -16,11 +16,14 @@ class MainActivity : AppCompatActivity() {
 
         singlePlay.setOnClickListener {
             val intent = Intent(this, GamePlay::class.java)
+            intent.putExtra("GameType","singleplayer")
             startActivity(intent)
         }
 
         multiPlay.setOnClickListener() {
-            ;
+            val intent = Intent(this, GamePlay::class.java)
+            intent.putExtra("GameType","multiplayer")
+            startActivity(intent)
         }
 
         hallOffFame.setOnClickListener{
