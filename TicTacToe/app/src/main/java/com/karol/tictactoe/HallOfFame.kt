@@ -47,11 +47,7 @@ class HallOfFame : AppCompatActivity() {
         editor.putInt("top3",topScore[2] )
         editor.commit()
 
-        /*
-        top_1.text = topScore[0].toString()
-        top_2.text = topScore[1].toString()
-        top_3.text = topScore[2].toString()
-        */
+
 
 
     }
