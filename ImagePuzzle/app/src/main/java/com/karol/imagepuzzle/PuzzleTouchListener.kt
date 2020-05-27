@@ -2,28 +2,61 @@ package com.karol.imagepuzzle
 
 import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
+import android.view.ViewGroup
 import android.widget.RelativeLayout
+import java.lang.Math.pow
+import kotlin.math.abs
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 
-class PuzzleTouchListener : View.OnTouchListener {
+class PuzzleTouchListener : OnTouchListener {
     private var xDelta = 0f
     private var yDelta = 0f
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
         val x = motionEvent.rawX
         val y = motionEvent.rawY
+        val tolerance: Double = sqrt(
+            view.width.toDouble().pow(2.0) + view.height.toDouble().pow(2.0)
+        ) / 2
+        val piece = view as PuzzlePiece
+        if (!piece.canMove) {
+            return true
+        }
         val lParams =
             view.getLayoutParams() as RelativeLayout.LayoutParams
         when (motionEvent.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
                 xDelta = x - lParams.leftMargin
                 yDelta = y - lParams.topMargin
+                piece.bringToFront()
             }
             MotionEvent.ACTION_MOVE -> {
                 lParams.leftMargin = (x - xDelta).toInt()
                 lParams.topMargin = (y - yDelta).toInt()
                 view.setLayoutParams(lParams)
             }
+            MotionEvent.ACTION_UP -> {
+                val xDiff: Int = abs((piece.xPos * piece.width) - lParams.leftMargin)
+                val yDiff: Int = abs((piece.yPos * piece.height) - lParams.topMargin)
+                if (xDiff <= tolerance && yDiff <= tolerance) {
+                    lParams.leftMargin = piece.xPos * piece.width + piece.xOffset
+                    lParams.topMargin = piece.yPos * piece.height + piece.yOffset
+                    piece.layoutParams = lParams
+                    piece.canMove = false
+                    sendViewToBack(piece)
+                }
+            }
         }
         return true
+    }
+
+    fun sendViewToBack(child: View) {
+        val parent = child.parent as ViewGroup
+        if (null != parent) {
+            parent.removeView(child)
+            parent.addView(child, 0)
+        }
     }
 }

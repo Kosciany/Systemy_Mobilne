@@ -10,11 +10,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
 
-   private lateinit var pieces : ArrayList<Bitmap>
+   private lateinit var pieces : ArrayList<PuzzlePiece>
 
     private fun hideActionBar() {
         supportActionBar?.hide()
@@ -32,17 +33,18 @@ class MainActivity : AppCompatActivity() {
             pieces = splitImage()
             val touchListener = PuzzleTouchListener()
             for(piece in  pieces){
-                val imagePiece = ImageView(applicationContext)
-                imagePiece.setImageBitmap(piece)
-                imagePiece.setOnTouchListener(touchListener)
-                layout.addView(imagePiece)
+                piece.setOnTouchListener(touchListener)
+                layout.addView(piece)
             }
 
+        exitButton.setOnClickListener(){
+            exitProcess(0)
+        }
         }
 
 
     }
-    private fun splitImage(): ArrayList<Bitmap> {
+    private fun splitImage(): ArrayList<PuzzlePiece> {
         val piecesNumber = 12
         val rows = 4
         val cols = 3
@@ -50,29 +52,39 @@ class MainActivity : AppCompatActivity() {
         val f = FloatArray (9)
         puzzleBoard.imageMatrix.getValues(f)
         puzzleBoard.alpha = 0.1F
-
+        val offsetX = f[Matrix.MTRANS_X]
+        val offsetY = f[Matrix.MTRANS_Y]
         val scaleX = f[Matrix.MSCALE_X]
         val scaleY = f[Matrix.MSCALE_Y]
 
-        val pieces: ArrayList<Bitmap> = ArrayList(piecesNumber)
+        val pieces: ArrayList<PuzzlePiece> = ArrayList(piecesNumber)
 
         // Get the bitmap of the source image
         val drawable = puzzleBoard.drawable as BitmapDrawable
         val bitmap = drawable.bitmap
 
+        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, (bitmap.width * scaleX).toInt(), (bitmap.height * scaleY).toInt(),true )
+
+
         // Calculate the with and height of the pieces
-        val pieceWidth = (bitmap.width / cols)
-        val pieceHeight = (bitmap.height / rows)
+        val pieceWidth = (scaledBitmap.width / cols)
+        val pieceHeight = (scaledBitmap.height / rows)
 
         // Create each bitmap piece and add it to the resulting array
         var yCoord = 0
         for (row in 0 until rows) {
             var xCoord = 0
             for (col in 0 until cols) {
-                val bitmapPart = Bitmap.createBitmap(bitmap, xCoord, yCoord, pieceWidth, pieceHeight)
-                val scaledBitmap = Bitmap.createScaledBitmap(bitmapPart, (pieceWidth * scaleX).toInt(), (pieceHeight * scaleY).toInt(),true )
-
-                pieces.add(scaledBitmap)
+                val bitmapPart = Bitmap.createBitmap(scaledBitmap, xCoord, yCoord, pieceWidth, pieceHeight)
+                val puzzlePiece = PuzzlePiece(this)
+                puzzlePiece.setImageBitmap(bitmapPart)
+                puzzlePiece.xPos = col
+                puzzlePiece.yPos = row
+                puzzlePiece.xOffset = offsetX.toInt()
+                puzzlePiece.yOffset = offsetY.toInt()
+                puzzlePiece.pieceWidth = pieceWidth
+                puzzlePiece.pieceHeight = pieceHeight
+                pieces.add(puzzlePiece)
                 xCoord += pieceWidth
             }
             yCoord += pieceHeight
