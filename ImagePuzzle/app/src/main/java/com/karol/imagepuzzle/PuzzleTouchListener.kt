@@ -11,9 +11,12 @@ import kotlin.math.sqrt
 
 
 
-class PuzzleTouchListener : OnTouchListener {
+class PuzzleTouchListener(puzzleActivity: PuzzleBoard) : OnTouchListener {
     private var xDelta = 0f
     private var yDelta = 0f
+    private lateinit var puzzleBoard: PuzzleBoard
+    private var activity = puzzleActivity
+
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
         val x = motionEvent.rawX
         val y = motionEvent.rawY
@@ -45,6 +48,11 @@ class PuzzleTouchListener : OnTouchListener {
                     lParams.topMargin = (piece.yPos * piece.size) + piece.yOffset.toInt()
                     piece.layoutParams = lParams
                     piece.canMove = false
+                    if (activity.isPuzzleSolved())
+                        {
+                            val chuj = 0
+                            val pizda = 1
+                        }
                 }
                 else
                 {
