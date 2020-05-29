@@ -5,10 +5,10 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.RelativeLayout
-import java.lang.Math.pow
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
+
 
 
 class PuzzleTouchListener : OnTouchListener {
@@ -19,7 +19,7 @@ class PuzzleTouchListener : OnTouchListener {
         val y = motionEvent.rawY
         val tolerance: Double = sqrt(
             view.width.toDouble().pow(2.0) + view.height.toDouble().pow(2.0)
-        ) / 2
+        )
         val piece = view as PuzzlePiece
         if (!piece.canMove) {
             return true
@@ -38,13 +38,19 @@ class PuzzleTouchListener : OnTouchListener {
                 view.setLayoutParams(lParams)
             }
             MotionEvent.ACTION_UP -> {
-                val xDiff: Int = abs((piece.xPos * piece.width) - lParams.leftMargin)
-                val yDiff: Int = abs((piece.yPos * piece.height) - lParams.topMargin)
+                val xDiff: Float = abs((piece.xPos * piece.width) - lParams.leftMargin).toFloat()
+                val yDiff: Float = abs((piece.yPos * piece.height) - lParams.topMargin).toFloat()
                 if (xDiff <= tolerance && yDiff <= tolerance) {
-                    lParams.leftMargin = piece.xPos * piece.width + piece.xOffset
-                    lParams.topMargin = piece.yPos * piece.height + piece.yOffset
+                    lParams.leftMargin = (piece.xPos * piece.size) + piece.xOffset.toInt()
+                    lParams.topMargin = (piece.yPos * piece.size) + piece.yOffset.toInt()
                     piece.layoutParams = lParams
                     piece.canMove = false
+                }
+                else
+                {
+                    lParams.leftMargin = piece.xStart
+                    lParams.topMargin = piece.yStart
+                    piece.layoutParams = lParams
                     sendViewToBack(piece)
                 }
             }
@@ -52,7 +58,7 @@ class PuzzleTouchListener : OnTouchListener {
         return true
     }
 
-    fun sendViewToBack(child: View) {
+    private fun sendViewToBack(child: View) {
         val parent = child.parent as ViewGroup
         if (null != parent) {
             parent.removeView(child)
