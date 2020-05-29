@@ -48,11 +48,7 @@ class PuzzleTouchListener(puzzleActivity: PuzzleBoard) : OnTouchListener {
                     lParams.topMargin = (piece.yPos * piece.size) + piece.yOffset.toInt()
                     piece.layoutParams = lParams
                     piece.canMove = false
-                    if (activity.isPuzzleSolved())
-                        {
-                            val chuj = 0
-                            val pizda = 1
-                        }
+                    activity.isPuzzleSolved()
                 }
                 else
                 {
@@ -68,9 +64,7 @@ class PuzzleTouchListener(puzzleActivity: PuzzleBoard) : OnTouchListener {
 
     private fun sendViewToBack(child: View) {
         val parent = child.parent as ViewGroup
-        if (null != parent) {
-            parent.removeView(child)
-            parent.addView(child, 0)
-        }
+        parent.removeView(child)
+        parent.addView(child, 0)
     }
 }

@@ -1,22 +1,24 @@
 package com.karol.imagepuzzle
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.RelativeLayout
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.board.*
-import kotlinx.android.synthetic.main.board.view.*
-import java.lang.reflect.Field
 import kotlin.properties.Delegates
 import kotlin.random.Random
 import kotlin.random.nextUInt
-import kotlin.system.exitProcess
+
 
 class PuzzleBoard : AppCompatActivity() {
 
@@ -28,6 +30,7 @@ class PuzzleBoard : AppCompatActivity() {
     private var end by Delegates.notNull<Long>()
     private lateinit var pieces : ArrayList<PuzzlePiece>
     private lateinit var piecesPositions : ArrayList<IntArray>
+    private var helpOn = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,14 +44,14 @@ class PuzzleBoard : AppCompatActivity() {
         options.inScaled = false
         val bImage = BitmapFactory.decodeResource(this.resources, imageID, options)
         puzzleBoard.setImageBitmap(bImage)
-
+        helpButton.visibility = View.GONE
 
         startButton.setOnClickListener {
             startButton.visibility = View.GONE
             if (!done)
             {
                 done = !done
-
+                helpButton.visibility = View.VISIBLE
                 val drawable = puzzleBoard.drawable as BitmapDrawable
                 val bitmap = drawable.bitmap
                 val f = FloatArray (9)
@@ -100,6 +103,25 @@ class PuzzleBoard : AppCompatActivity() {
         exitButton.setOnClickListener(){
            finish()
         }
+        helpButton.setOnClickListener(){
+
+            if (helpOn)
+                {
+                    val helpIm = BitmapFactory.decodeResource(this.resources, R.drawable.puzzletemplate)
+                    puzzleBoard.setImageBitmap(bImage)
+                    puzzleBoard.alpha = 0.9F
+                    puzzleBoard.setImageBitmap(helpIm)
+                }
+            else
+                {
+                val helpIm = BitmapFactory.decodeResource(this.resources, imageID, options)
+                puzzleBoard.setImageBitmap(bImage)
+                puzzleBoard.alpha = 0.3F
+                puzzleBoard.setImageBitmap(helpIm)
+                }
+            helpOn = !helpOn
+
+        }
     }
 
 
@@ -111,8 +133,19 @@ class PuzzleBoard : AppCompatActivity() {
                 return false
             }
         }
+        end = System.currentTimeMillis()
+        popupText()
+        //SystemClock.sleep(5000)
+        //finish()
         return true
     }
+
+    private fun popupText() {
+            timePopup.setText("""Congratulations! It took ${(end - start) / 1000} seconds """)
+            timePopup.append("Press exit to return to the menu")
+            timePopup.visibility = View.VISIBLE
+        }
+
 
     private fun hideActionBar() {
         supportActionBar?.hide()

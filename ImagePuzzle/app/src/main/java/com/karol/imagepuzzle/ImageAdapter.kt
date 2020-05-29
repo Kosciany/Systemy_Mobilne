@@ -1,28 +1,33 @@
 package com.karol.imagepuzzle
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
 import android.widget.BaseAdapter
+import android.widget.GridView
 import android.widget.ImageView
 
 
-class ImageAdapter(c:Context, imagesIDArray: ArrayList<Int>, columnsNum: Int) : BaseAdapter() {
+class ImageAdapter(c:Context, imagesIDArray: ArrayList<Int>, imageDim: Int) : BaseAdapter() {
     private val context = c
     private val idArray = imagesIDArray
-    private val columns = columnsNum
-    private val padding = 3
+    private val imageDim = imageDim
+    private val padding = 5
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-
-        val imageView: ImageView = ImageView(context)
-        imageView.setImageResource(idArray[position])
-        if (parent != null) {
-                imageView.layoutParams = AbsListView.LayoutParams((0.9*parent.width/columns).toInt(), (0.9*parent.width/columns).toInt())
-            }
-        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        imageView.setPadding(padding, padding, padding, padding)
+        val imageView: ImageView
+        if (convertView == null) {
+            imageView = ImageView(context);
+            imageView.layoutParams = ViewGroup.LayoutParams(imageDim, imageDim);
+            imageView.scaleType = ImageView.ScaleType.CENTER_CROP;
+            imageView.setPadding(padding, padding, padding, padding);
+        }
+        else
+        {
+            imageView = convertView as ImageView;
+        }
+        imageView.setImageResource(idArray[position]);
         return imageView
     }
 
