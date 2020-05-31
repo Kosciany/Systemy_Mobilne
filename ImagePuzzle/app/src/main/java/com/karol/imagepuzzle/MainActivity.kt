@@ -9,7 +9,7 @@ import android.widget.AdapterView
 import android.widget.GridView
 
 
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() {
 
     private lateinit var imagesIDArray: ArrayList<Int>
     private val columnNum = 2
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         gridView.adapter = ImageAdapter(this,imagesIDArray,(imageFactor*width/columnNum).toInt())
 
         gridView.onItemClickListener =
-            AdapterView.OnItemClickListener { adapterView, view, position, id -> // Send intent to SingleViewActivity
+            AdapterView.OnItemClickListener { _, _, position, _ -> // Send intent to SingleViewActivity
                 val i = Intent(applicationContext, PuzzleBoard::class.java);
                 // Pass image index
                 i.putExtra("id", imagesIDArray[position])
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun getImagesIdentifiers(): ArrayList<Int> {
+    fun getImagesIdentifiers(): ArrayList<Int> {
 
         var resID: Int
         val images = ArrayList<Int>()
