@@ -19,6 +19,7 @@ class PuzzleBoard : AppCompatActivity() {
     private val piecesNumber = 12
     private val rows = 3
     private val cols = 4
+    private val toleranceFactor = 0.1
     
     private var start by Delegates.notNull<Long>()
     private var end by Delegates.notNull<Long>()
@@ -72,7 +73,7 @@ class PuzzleBoard : AppCompatActivity() {
                                                       puzzlePile.bottom - 2*puzzleBoard.height/rows,
                                                       150)
 
-            val touchListener = PuzzleTouchListener(this)
+            val touchListener = PuzzleTouchListener(this,toleranceFactor)
 
             for ((i, piece) in pieces.withIndex()) 
                 {
@@ -82,8 +83,7 @@ class PuzzleBoard : AppCompatActivity() {
                 piece.yOffset = offsetY
                 piece.adjustViewBounds = true
                 piece.applyStartPosition(piecesPositions, i)
-                piece.left = piece.xStart
-                piece.top = piece.yStart
+
                 val lParams = piece.layoutParams as RelativeLayout.LayoutParams
                 lParams.leftMargin = piece.xStart
                 lParams.topMargin = piece.yStart

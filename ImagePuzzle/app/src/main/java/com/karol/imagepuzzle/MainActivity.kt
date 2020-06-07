@@ -28,9 +28,8 @@ open class MainActivity : AppCompatActivity() {
         gridView.adapter = ImageAdapter(this,imagesIDArray,(imageFactor*width/columnNum).toInt())
 
         gridView.onItemClickListener =
-            AdapterView.OnItemClickListener { _, _, position, _ -> // Send intent to SingleViewActivity
+            AdapterView.OnItemClickListener { _, _, position, _ ->
                 val i = Intent(applicationContext, PuzzleBoard::class.java);
-                // Pass image index
                 i.putExtra("id", imagesIDArray[position])
                 startActivity(i)
 

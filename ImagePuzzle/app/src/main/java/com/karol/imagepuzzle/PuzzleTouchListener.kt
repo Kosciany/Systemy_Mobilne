@@ -11,9 +11,10 @@ import kotlin.math.sqrt
 
 
 
-class PuzzleTouchListener(puzzleActivity: PuzzleBoard) : OnTouchListener {
+class PuzzleTouchListener(puzzleActivity: PuzzleBoard, tolerance: Double) : OnTouchListener {
     private var xDelta = 0f
     private var yDelta = 0f
+    private var toleranceFactor = tolerance
     private lateinit var puzzleBoard: PuzzleBoard
     private var activity = puzzleActivity
 
@@ -22,7 +23,7 @@ class PuzzleTouchListener(puzzleActivity: PuzzleBoard) : OnTouchListener {
         val y = motionEvent.rawY
         val tolerance: Double = sqrt(
             view.width.toDouble().pow(2.0) + view.height.toDouble().pow(2.0)
-        )
+        ) * toleranceFactor
         val piece = view as PuzzlePiece
         if (!piece.canMove) {
             return true
